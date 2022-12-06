@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: jetty-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: web-jetty
+  
+  template:
+    metadata:
+      labels:
+        component: web-jetty
+    spec:
+      containers:
+      - name: pod-jetty
+        image: 1gwynn/web-jetty
+        ports:
+        - name: puerto80 
+          containerPort: 8080
+        - name: puerto443
+          containerPort: 8443

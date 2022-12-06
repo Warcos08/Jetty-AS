@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: cliente-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: web-cliente
+  
+  template:
+    metadata:
+      labels:
+        component: web-cliente
+    spec:
+
+      volumes:
+        - name: volumen-media
+          persistentVolumeClaim:
+            claimName: volumen-media-claim
+
+        - name: volumen-web
+          persistentVolumeClaim:
+            claimName: volumen-web-claim
+
+      containers:
+        - name: pod-cliente
+          image: 1gwynn/cliente-jetty
+          
+          volumeMounts:
+            - name: volumen-media
+              mountPath: /home/volumen-media
+              subPath: ../../Proyecto/volumen-media
+            
+            - name: volumen-web
+              mountPath: /home/volumen-web
+              subPath: ../../Proyecto/volumen-web

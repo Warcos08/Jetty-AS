@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: load-balancer-jetty
+  labels:
+    component: web-jetty
+
+spec:
+  type: LoadBalancer
+  ports:
+    - name: puerto80
+      port: 80
+      targetPort: 8080
+    - name: puerto443
+      port: 443
+      targetPort: 8443
+  selector:
+    component: web-jetty
