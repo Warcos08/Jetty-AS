@@ -1,0 +1,24 @@
+services:
+  cliente:
+    build: ./cliente
+    volumes:
+      - ./volumen-media:/home/volumen-media
+      - ./volumen-web:/home/volumen-web 
+
+  web-jetty:
+    build: 
+      context: ./volumen-web
+      dockerfile: ../web-jetty/Dockerfile
+    ports:
+      - 80:8080
+      - 443:8443
+    depends_on:
+      cliente:
+        condition: service_completed_successfully
+
+  mysql:
+    build: ../Extra/mysql
+    volumes: 
+      - ./volumen-media:/volumen-media
+    ports:
+      - 6603:3306
